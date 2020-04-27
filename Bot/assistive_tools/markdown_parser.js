@@ -1,6 +1,4 @@
-const fs = require('fs');
-
-function parsemd(mdtext) {
+exports.parsemd = function (mdtext) {
     /**
      * Reads a string formatted with Markdown as input argument 
      * `mdtext`, and returns the same text but reformatted with HTML instead.
@@ -68,21 +66,3 @@ function parsemd(mdtext) {
 
     return htmltext;
 }
-
-// TESTS FOR THE FUNCTION
-
-fs.open('./sample.md', 'r', function(err, fileToRead){
-    if (!err){
-        fs.readFile(fileToRead, {encoding: 'utf-8'}, function(err,data){
-            if (!err){
-                html = parsemd(data);
-                console.log(html);
-                // Just redirect with `node markdown_parser.js > sample.html`
-            }else{
-                console.log(err);
-            }
-        });
-    }else{
-        console.log(err);
-    }
-});
