@@ -1,3 +1,9 @@
+/** BOT.JS
+ *  ======
+ * 
+ * This is the main file which contains the script to be invoked via node to run the bot.
+ */
+
 //Requirements
 //SETTINGS
 const { prefix, activity, version, processBots, databaseName } = require('./config.json'); // Loads the settings

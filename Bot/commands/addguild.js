@@ -1,3 +1,13 @@
+/** ADDGUILD
+ *  ========
+ * 
+ * This module provides the command `addguild` to the bot. The command adds the guild into the SQLite3
+ *  Database if it did not already exist in the database. Otherwise it responds with the message "Guild
+ *  already in database"
+ * 
+ * This command can only be used by an admin.
+ */
+
 module.exports = {
 	/* Settings : */
 	admin: 'true',
