@@ -67,7 +67,17 @@ module.exports = {
         return callback(result.server_id);
       } return callback(null);
     })
-  },
+    },
+
+    isChannelInDB: function (channelID, callback) {
+        console.log("Checking if channel " + channelID + " is in the database...");
+    db.get(`SELECT channel_id FROM channels WHERE channel_id = ?`, [channelID], (err, result) => {
+    if (err) return console.log(err)
+        if (result != null) {
+            return callback(result.channel_id);
+        } return callback(null);
+    })
+    },
 
   //End the connection to the database
   closeDatabase: function (){
