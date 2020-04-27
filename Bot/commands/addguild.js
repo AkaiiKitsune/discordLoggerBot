@@ -1,5 +1,5 @@
 module.exports = {
-	/* Setings : */
+	/* Settings : */
 	admin: 'true',
 	guildOnly: 'true',
 	name: 'addguild',

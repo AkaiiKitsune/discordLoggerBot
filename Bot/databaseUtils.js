@@ -1,3 +1,37 @@
+/** DATABASE UTILITIES
+ *  ==================
+ * 
+ * This is a module which provides methods to access the SQLite3 database and enter new server, channel
+ * and message data into it using the API provided by the NodeJS SQLite3 module. This includes the following
+ * methods:
+ * 
+ *    1. `initDatabase`: A method to initiate a connection to the SQLite3 database. It takes a single boolean 
+ *       argument which indicates whether or not the required relations already exist in the database. If 
+ *       these relations/tables have already been created, then there is no need to rebuild them, hence the
+ *       argument should be `false`. Setting the argument to `true` causes this method to create the required 
+ *       tables upon initializing the database.
+ * 
+ *    2. `addServerToDB`: A method which takes the Discord Guild ID (ServerID) and a Server Name (string) and
+ *       runs an SQL query to insert the data into a new row of the `servers` table in the database.
+ * 
+ *    3. `addChannelToDB`: A method to insert a row into the `channels` table of the database, it takes arguments
+ *       for the Discord channel ID, channel name and the Discord Guild ID of the server the channel belongs to.
+ * 
+ *    4. `addMessageToDB`: Arguments - messageId, channelID, serverId, message, author, time;
+ *       Inserts a new row into the `messages` table, which contains the above arguments as its fields. The messageId
+ *       should be the Discord Message ID of the message, preferably.
+ * 
+ *    5. `isServerInDB`: This method uses the `get` method of the SQLite3 module to query for a server using a given
+ *       server ID. It takes two arguments: a server ID to query by, and a `callback` function, which should take one
+ *       argument. If the server of the given ID is found in the database, this method calls the callback with the server
+ *       ID as argument and forwards the value it returns to its own returned value. Otherwise it called the callback with
+ *       NULL and returns the result.
+ *       To obtain a simple boolean value which indicates whether a server is in the database, use:
+ *       `isServerInDB(serverId, (result) => { return result != NULL; } );`
+ * 
+ *    6. `closeDatabase`: Closes the connection with the SQLite3 database safely, using the SQLite3 module.
+ */
+
 const sqlite3 = require('sqlite3'); // Database stuff 
 const { databaseName } = require('./config.json'); // Loads the settings
 let db;
