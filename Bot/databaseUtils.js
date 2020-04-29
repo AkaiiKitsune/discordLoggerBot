@@ -51,7 +51,7 @@ module.exports = {
   addMessageToDB: function (messageId, channelID, serverId, message, author, time) {
     console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
 
-    db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author, time) VALUES(?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author, time], (err) => {
+    db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author, time) VALUES(?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author, time], (err) => {
       if (err) {
         console.error("addMessageToDB : " + err.message);
       }

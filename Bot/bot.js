@@ -99,8 +99,8 @@ async function logMsg(message) {
 				message.channel.id.toString(), 
 				message.channel.guild.id.toString(), 
 				message.content.toString(), 
-				message.author,
-				message.time );
+				message.author.tag,
+				message.createdAt.toString() );
 		});
 	});
 }
