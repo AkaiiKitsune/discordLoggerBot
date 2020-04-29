@@ -1,11 +1,13 @@
 const sqlite3 = require('sqlite3');
 const fs      = require('fs');
+const pmd     = require('parsemd');
 
-function queryRunner(dbpath, channelid) {
+exports.queryRunner = function (dbpath, channelid) {
     /**
      * Runs an SQL query inside the SQLite3 database, reading all messages from a given channel.
      * Reads `message, `author and `time fields from the channel.
      * Then opens the file `data.json` and prints the object as a JSON string.
+     * Formats the message with parsemd first.
      */
     let db = new sqlite3.Database(dbpath, function (err) {
         console.error('Could not open database!');
@@ -29,6 +31,11 @@ function queryRunner(dbpath, channelid) {
         }
         else {
             console.log(`Read ${obj.length} lines form the DB`);
+            for(let i = 0; i < obj.length; i++) {
+                row = obj[i];
+                row.message = await pmd.parsemd(row.message);
+                obj[i] = row;
+            }
             let jstr = 'data = ' + obj.stringify();
             fs.writeFile('data.json', jstr, function (err) {
                 if(err) {

@@ -1,10 +1,27 @@
+/**
+ *   !!! NOTE !!!
+ *   ============
+ *  
+ *   THIS THING DOESN'T WORK YET, BECAUSE I HAVEN'T FIGURED OUT HOW TO 
+ *   TAKE INPUT FOR WHICH CHANNEL TO VIEW.
+ */
+
+
+// Importing required modules
 const http = require('http');
 const fs   = require('fs');
+const qr   = require('./queryrunner.js');
+
+// Parameters for running the file
+const dbpath = '../Bot/database.db';
+const testChannel = '';
 
 http.createServer(function (request, response) {
     console.log('Received a request: ' + request.url);
     switch(request.url) {
         case '/data.json':
+            console.log('Generating new Query Runner to make a data.json.');
+            qr.queryRunner(dbpath, testChannel);
             fs.readFile('./data.json', function (err, text) {
                 if(err) {
                     console.error('Error: ' + err);
