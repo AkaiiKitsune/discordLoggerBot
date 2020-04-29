@@ -18,69 +18,67 @@ const logger = new Console(output, errorOutput);
 //Database
 const database = require('./databaseUtils');
 if (!fs.existsSync('./' + databaseName + '.db')) {
-	database.initDatabase(false)
-	log("misc", "Database Initialized.");
+    database.initDatabase(false)
+    log("misc", "Database Initialized.");
 }
-else { 
-	database.initDatabase(true);
-	log("info", "Database Loaded.");
+else {
+    database.initDatabase(true);
+    log("info", "Database Loaded.");
 }
 
 //COMMANDS
 var commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
 }
 
 client.on("ready", () => { // Handle the activity of the bot on login time
-	client.user.setActivity(activity + " " + version);
-	console.log("Server started : " + client.user.username + "#" + client.user.discriminator + " (@" + client.user.id + ")."); //cursed formatting
+    client.user.setActivity(activity + " " + version);
+    console.log("Server started : " + client.user.username + "#" + client.user.discriminator + " (@" + client.user.id + ")."); //cursed formatting
 
-	client.guilds.cache.forEach(guild => {
-		database.isServerInDB(guild.id.toString(), function (response) {
-			if (response == null) {
-				database.addServerToDB(guild.id.toString(), guild.name);
-			}
-		});
-	});
+    client.guilds.cache.forEach(guild => {
+        database.isServerInDB(guild.id.toString(), function (response) {
+            if (response == null) {
+                database.addServerToDB(guild.id.toString(), guild.name);
+            }
+        });
+    });
 
-	console.log(client.commands);
+    console.log(client.commands);
 });
 
 client.on('message', message => { execute(message); });
 
-async function execute(message)
-{
-	if (message.content.startsWith(prefix)) { //Command handling
-		command(message);
-	} else { //Logging !
-		logMsg(message);
+async function execute(message) {
+    if (message.content.startsWith(prefix)) { //Command handling
+        command(message);
+    } else { //Logging !
+        //logMsg(message);
     }
 }
 
 async function command(message) {
-	if (message.content.length <= 1) return;
+    if (message.content.length <= 1) return;
 
-	try {
-		if (message.author.bot) return;
+    try {
+        if (message.author.bot) return;
 
-		const args = message.content.slice(prefix.length).split(/ +/);
-		const commandName = args.shift().toLowerCase();
-		const command = client.commands.get(commandName);/* || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));*/
+        const args = message.content.slice(prefix.length).split(/ +/);
+        const commandName = args.shift().toLowerCase();
+        const command = client.commands.get(commandName);/* || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));*/
 
-		log("info", (message.author.tag + ' issued a command'));
-		if (!command) { log("error", message.author.tag + ' issued a wrong command : ' + commandName); return; }
+        log("info", (message.author.tag + ' issued a command'));
+        if (!command) { log("error", message.author.tag + ' issued a wrong command : ' + commandName); return; }
 
-		log("misc", 'Full string :  ' + message.content + '\n	Running command : ' + commandName + '\n	Args :  ' + args + '\n	Command Settings :  ' + "Admin : " + command.admin + ", Guildonly : " + command.guildOnly + ", Aliases : " + command.aliases);
-		if (command.guildOnly == "true" && message.channel.type !== 'text') { return message.reply('You can\'t do that in your DM\'s !'); }
-		if (command.guildOnly == "true" && command.admin == "true") { if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) { return message.reply('You\'re not admin !.'); } }
+        log("misc", 'Full string :  ' + message.content + '\n	Running command : ' + commandName + '\n	Args :  ' + args + '\n	Command Settings :  ' + "Admin : " + command.admin + ", Guildonly : " + command.guildOnly + ", Aliases : " + command.aliases);
+        if (command.guildOnly == "true" && message.channel.type !== 'text') { return message.reply('You can\'t do that in your DM\'s !'); }
+        if (command.guildOnly == "true" && command.admin == "true") { if (!message.channel.permissionsFor(message.member).has("ADMINISTRATOR")) { return message.reply('You\'re not admin !.'); } }
 
-
-		command.execute(message, args, database);
-	} catch (error) {
-		log("error", 'CRITICAL : ' + error);
-	}
+        command.execute(message, args, database);
+    } catch (error) {
+        log("error", 'CRITICAL : ' + error);
+    }
 }
 
 async function logMsg(message) {
@@ -88,44 +86,43 @@ async function logMsg(message) {
 	 * Given a message object as argument, run an SQL query on the SQLite3 database
 	 * to add the message into a new row of the `messages` table.
 	 */
-	database.isServerInDB(message.channel.guild.id.toString(), function (result) {
-		if(result == null)
-			return;
-		database.isChannelInDB(message.channel.id.toString(), function (result) {
-			if(result == null)
-				return;
-			database.addMessageToDB( 
-				message.id.toString(), 
-				message.channel.id.toString(), 
-				message.channel.guild.id.toString(), 
-				message.content.toString(), 
-				message.author,
-				message.time );
-		});
-	});
+    database.isServerInDB(message.channel.guild.id.toString(), function (result) {
+        if (result == null)
+            return;
+        database.isChannelInDB(message.channel.id.toString(), function (result) {
+            if (result == null)
+                return;
+            database.addMessageToDB(
+                message.id.toString(),
+                message.channel.id.toString(),
+                message.channel.guild.id.toString(),
+                message.content.toString(),
+                message.author,
+                message.time);
+        });
+    });
 }
 
-
 async function log(value, str) { //Logging stuff + console output
-	if (value == "info") {
-		console.log(" [INFO] : " + str);
-		logger.log("[INFO] : " + str);
-	} else if (value == "error") {
-		console.error('\x1b[31m', "[ERROR] : " + str, '\x1b[0m');
-		logger.error("[ERROR] : " + str);
-	} else if (value == "debug" && debug == 1) {
-		console.warn('\x1b[32m', "[DEBUG] : " + str, '\x1b[0m');
-		logger.warn("[DEBUG] : " + str);
-	} else if (value == "misc") {
-		console.log("\x1b[33m", "[MISC] : " + str, "\x1b[0m");
-		logger.log("[MISC] : " + str);
-	}
+    if (value == "info") {
+        console.log(" [INFO] : " + str);
+        logger.log("[INFO] : " + str);
+    } else if (value == "error") {
+        console.error('\x1b[31m', "[ERROR] : " + str, '\x1b[0m');
+        logger.error("[ERROR] : " + str);
+    } else if (value == "debug" && debug == 1) {
+        console.warn('\x1b[32m', "[DEBUG] : " + str, '\x1b[0m');
+        logger.warn("[DEBUG] : " + str);
+    } else if (value == "misc") {
+        console.log("\x1b[33m", "[MISC] : " + str, "\x1b[0m");
+        logger.log("[MISC] : " + str);
+    }
 }
 
 function sleep(ms) {
-	return new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
-}   
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 
 client.login(idToken); //Logging in
