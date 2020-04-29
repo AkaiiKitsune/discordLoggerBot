@@ -83,9 +83,26 @@ async function command(message) {
 	}
 }
 
-async function logMsg(message)
-{
-
+async function logMsg(message) {
+	/**
+	 * Given a message object as argument, run an SQL query on the SQLite3 database
+	 * to add the message into a new row of the `messages` table.
+	 */
+	database.isServerInDB(message.channel.guild.id.toString(), function (result) {
+		if(result == null)
+			return;
+		database.isChannelInDB(message.channel.id.toString(), function (result) {
+			if(result == null)
+				return;
+			database.addMessageToDB( 
+				message.id.toString(), 
+				message.channel.id.toString(), 
+				message.channel.guild.id.toString(), 
+				message.content.toString(), 
+				message.author,
+				message.time );
+		});
+	});
 }
 
 
