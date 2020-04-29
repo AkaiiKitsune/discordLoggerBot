@@ -88,7 +88,7 @@ module.exports = {
     // -- Database removals -- //
 
     removeGuild: function (serverID) {
-        console.log("Removing guild: " + serverID + "from database");
+        console.log("Removing guild: " + serverID + " from database");
         db.run("DELETE FROM servers where server_id=(?)", [serverID], function (err) {
             if (err) {
                 return console.error(err);
@@ -105,6 +105,20 @@ module.exports = {
             });
             console.log("Guild removed");
         })
+    },
+
+    removeChannel: function (channelID) {
+        console.log("Removing guild: " + channelID + " from database");
+        db.run("DELETE FROM channels WHERE channel_id=(?)", [channelID], function (err) {
+            if (err) {
+                return console.error(err);
+            }
+            db.run("DELETE FROM messages WHERE channel_id=(?)", [channelID], function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            });
+        });
     },
 
     // -- Database exit -- //

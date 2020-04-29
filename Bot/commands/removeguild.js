@@ -8,12 +8,12 @@ module.exports = {
 
     /* Command : */
     execute(message, args, database) {
-        database.isServerInDB(message.channel.id.toString(), function (response) {
+        database.isServerInDB(message.channel.guild.id.toString(), function (response) {
             if (response == null) {
+                message.channel.send("Guild not in database!");
+            } else {
                 database.removeGuild(message.channel.guild.id);
                 message.channel.send("Server has been removed.");
-            } else {
-                message.channel.send("Guild not in database!");
             }
         });
     },
