@@ -20,7 +20,7 @@ module.exports = {
           db.run('CREATE TABLE channels(channel_id text PRIMARY KEY, name text NOT NULL, server_id text NOT NULL)', (err) => {
               if (err) return console.log("channels : " + err)
           });
-          db.run('CREATE TABLE messages(message_id text PRIMARY KEY, server_id text NOT NULL, channel_id text NOT NULL, message text NOT NULL, author text NOT NULL, time text NOT NULL)', (err) => {
+          db.run('CREATE TABLE messages(message_id text PRIMARY KEY, server_id text NOT NULL, channel_id text NOT NULL, message text NOT NULL, author_id text NOT NULL, author text NOT NULL, time text NOT NULL)', (err) => {
               if (err) return console.log("messages : " + err)
           });
       }
@@ -48,10 +48,10 @@ module.exports = {
       });
     },
 
-  addMessageToDB: function (messageId, channelID, serverId, message, author, time) {
+  addMessageToDB: function (messageId, channelID, serverId, message, author_id, author, time) {
     console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
 
-    db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author, time) VALUES(?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author, time], (err) => {
+    db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author_id, author, time) VALUES(?, ?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author_id, author, time], (err) => {
       if (err) {
         console.error("addMessageToDB : " + err.message);
       }

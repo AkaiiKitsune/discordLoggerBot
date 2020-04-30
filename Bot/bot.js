@@ -94,11 +94,12 @@ async function logMsg(message) {
 		database.isChannelInDB(message.channel.id.toString(), function (result) {
 			if(result == null)
 				return;
-			database.addMessageToDB( 
+			database.addMessageToDB(  // Calling method from the databaseUtils.js module
 				message.id.toString(), 
 				message.channel.id.toString(), 
 				message.channel.guild.id.toString(), 
 				message.content.toString(), 
+				message.author.id.toString(),
 				message.author.tag,
 				message.createdAt.toString() );
 		});
