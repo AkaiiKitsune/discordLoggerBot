@@ -15,8 +15,8 @@ function makeDocument() {
     }
     for(let i = 0; i < data.length; i++) {
         console.log("Writing message " + i);
-        channelArea.innerHTML += `<h3>${data[i].author}</h3>`;
-        channelArea.innerHTML += `<h4>${data[i].time}</h4>`;
-        channelArea.innerHTML += `<p>${data[i].message}</p><hr/>`;
+        channelArea.innerHTML += `<username>${data[i].author}</username>`;
+        channelArea.innerHTML += `<timestamp>${data[i].time}</timestamp>`;
+        channelArea.innerHTML += `<p>${data[i].message}</p>`;
     }
 }

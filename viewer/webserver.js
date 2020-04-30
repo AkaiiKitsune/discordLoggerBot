@@ -13,18 +13,18 @@ const fs   = require('fs');
 const qr   = require('./queryrunner.js');
 
 // Parameters for running the file
-const dbpath = '../Bot/database.db';
+const dbpath = 'Bot/database.db';
 const testChannel = '703793735208534108';
 
 http.createServer(function (request, response) {
     console.log('Received a request: ' + request.url);
     switch(request.url) {
-        case '/data.js':
-            
+        
+        case '/viewer/data.js':    
             console.log('Generating new Query Runner to make a data.js.');
-            qr.queryRunner(dbpath, testChannel);
+            qr.queryRunner(dbpath, testChannel, 'data.js');
             console.log("Query completed. Now reading the file data.js");
-            fs.readFile('./data.js', function (err, text) {
+            fs.readFile('viewer/data.js', function (err, text) {
                 if(err) {
                     console.error('Error: ' + err);
                     response.writeHead(404, "text/javascript");
@@ -39,8 +39,8 @@ http.createServer(function (request, response) {
                 }
             });
             break;
-        case '/format.js':
-            fs.readFile('./format.js', function (err, text) {
+        case '/viewer/format.js':
+            fs.readFile('viewer/format.js', function (err, text) {
                 if(err) {
                     console.error('Error: ' + err);
                     response.writeHead(404, "text/javascript");
@@ -55,8 +55,8 @@ http.createServer(function (request, response) {
                 }
             });
             break;
-        case '/favicon.ico':
-            fs.readFile('./favicon.ico', function (err, pic) {
+        case '/viewer/favicon.ico':
+            fs.readFile('viewer/favicon.ico', function (err, pic) {
                 if(err) {
                     console.error('Error: ' + err);
                     response.writeHead(404, "text/plain");
@@ -72,7 +72,7 @@ http.createServer(function (request, response) {
             });
             break;
         default:
-            fs.readFile('./index.html', function (err, text) {
+            fs.readFile('viewer/index.html', function (err, text) {
                 if(err) {
                     console.error('Error: ' + err);
                     response.writeHead(500, "text/plain");

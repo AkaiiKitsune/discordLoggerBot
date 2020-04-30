@@ -50,15 +50,15 @@ module.exports = {
     },
 
     // Adding a message to the database
-    addMessageToDB: function (messageId, channelID, serverId, message, author, time) {
-        console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
+    addMessageToDB: function (messageId, channelID, serverId, message, author_id, author, time) {
+    console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
 
-        db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author, time) VALUES(?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author, time], (err) => {
-            if (err) {
-                console.error("addMessageToDB : " + err.message);
-            }
-        });
-    },
+    db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author_id, author, time) VALUES(?, ?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author_id, author, time], (err) => {
+      if (err) {
+        console.error("addMessageToDB : " + err.message);
+      }
+    });
+  },
 
     // -- Database query -- //
 

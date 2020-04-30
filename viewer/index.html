@@ -5,26 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="text/javascript" src="data.js"></script>
-    <script type="text/javascript" src="format.js"></script>
+    <script type="text/javascript" src="viewer/data.js"></script>
+    <script type="text/javascript" src="viewer/format.js"></script>
     <style>
-        h3 {
-            font-family: Lora, Fira, Helvetica, verdana, arial;
-            font-size: 150%;
-            color: #000099;
+        username {
+            font-family: verdana, arial;
+            font-size: 110%;
+            color: #ffffff;
             font-weight: bold;
         }
-        h4 {
-            font-family: Lora, Fira, Helvetica, verdana, arial;
+        timestamp {
+            font-family: verdana, arial;
             font-size: 80%;
-            color: #808080;
+            color: #a0a0a0;
             font-style: italic;
+        }
+        p {
+            font-family: verdana, arial;
+            font-size: 100%;
+            color: #ffffff;
+            font-style: normal;
         }
     </style>
 </head>
 
-<body>
-    <div id="channel-area" hidden></div>
+<body bgcolor="36393f">
+    <div id="channel-area" hidden"></div>
     <script>makeDocument()</script>
 </body>
 
