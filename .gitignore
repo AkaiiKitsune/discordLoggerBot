@@ -351,3 +351,10 @@ MigrationBackup/
 
 # don't upload the secrets you dummy
 secrets.json
+Bot/secrets.json
+
+# Also, no need to upload the Node Modules in the Viewer
+viewer/node_modules/
+
+# And obviouly, temp files can stay out as well
+viewer/data.js

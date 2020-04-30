@@ -14,15 +14,17 @@ const qr   = require('./queryrunner.js');
 
 // Parameters for running the file
 const dbpath = '../Bot/database.db';
-const testChannel = '';
+const testChannel = '703793735208534108';
 
 http.createServer(function (request, response) {
     console.log('Received a request: ' + request.url);
     switch(request.url) {
-        case '/data.json':
-            console.log('Generating new Query Runner to make a data.json.');
+        case '/data.js':
+            
+            console.log('Generating new Query Runner to make a data.js.');
             qr.queryRunner(dbpath, testChannel);
-            fs.readFile('./data.json', function (err, text) {
+            console.log("Query completed. Now reading the file data.js");
+            fs.readFile('./data.js', function (err, text) {
                 if(err) {
                     console.error('Error: ' + err);
                     response.writeHead(404, "text/javascript");

@@ -15,11 +15,13 @@ The aim of this project is to implement a Discord Bot in Javascript (Node.js) us
 ## The Database:
 
 The database used by the bot is impemented on SQLite3. The architecture of the Database is as shown:  
-![Database Architecture](db-chart.jpg)
+![Database Architecture](db-chart.png)
 
 The database values are updated using the methods in `Bots/databaseUtils.js`, and are read using `viewer/querryrunner.js`
 
 ## TODO:
 
  1. The viewer is nowhere near completed, and will require some changes (written in the comment in `viewer/webserver.js`). 
- 2. We need a method to read messages from the channels and write them into the database (see Issues).
+ 2. The viewer will also have to be tested, once there are enough messages in the database.
+ 3. The timestamp is currently implemented in the database as text, this will limit query capabilities.
+ 4. This branch will have to be merged into the `Database_developer` branch, which it its parent branch.
