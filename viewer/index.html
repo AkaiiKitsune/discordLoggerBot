@@ -5,12 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="text/javascript" src="data.json"></script>
+    <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript" src="format.js"></script>
+    <style>
+        h3 {
+            font-family: Lora, Fira, Helvetica, verdana, arial;
+            font-size: 150%;
+            color: #000099;
+            font-weight: bold;
+        }
+        h4 {
+            font-family: Lora, Fira, Helvetica, verdana, arial;
+            font-size: 80%;
+            color: #808080;
+            font-style: italic;
+        }
+    </style>
 </head>
 
-<body onload="makeDocument()">
-    <h1>Testing file</h1>
+<body>
+    <div id="channel-area" hidden></div>
+    <script>makeDocument()</script>
 </body>
 
 </html>
