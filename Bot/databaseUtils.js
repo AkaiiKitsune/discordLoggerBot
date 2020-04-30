@@ -123,6 +123,17 @@ module.exports = {
 
     // -- Database edit -- //
 
+
+    renameServer: function (guildID, newGUildName) {
+        console.log("Updating server: " + guildID + " name to: " + newGUildName);
+        db.run("UPDATE servers set name=? where server_id=?", [newGUildName, guildID], function (err) {
+            if (err) {
+                return console.error(err);
+            }
+        });
+    },
+
+
     renameChannel: function (channelID, newChannelName) {
         console.log("Updating channel: " + channelID + " name to: " + newChannelName);
         db.run("UPDATE channels set name=? where channel_id=?", [newChannelName, channelID], function (err) {
