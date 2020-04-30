@@ -121,6 +121,17 @@ module.exports = {
         });
     },
 
+    // -- Database edit -- //
+
+    renameChannel: function (channelID, newChannelName) {
+        console.log("Updating channel: " + channelID + " name to: " + newChannelName);
+        db.run("UPDATE channels set name=? where channel_id=?", [newChannelName, channelID], function (err) {
+            if (err) {
+                return console.error(err);
+            }
+        });
+    },
+
     // -- Database exit -- //
 
     // End the connection to the database
