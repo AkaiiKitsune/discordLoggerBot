@@ -21,7 +21,6 @@ The database values are updated using the methods in `Bots/databaseUtils.js`, an
 
 ## TODO:
 
- 1. The viewer is nowhere near completed, and will require some changes (written in the comment in `viewer/webserver.js`). 
- 2. The viewer will also have to be tested, once there are enough messages in the database.
+ 1. Basic viewer is completed, but the token system to ensure that people can only view channels in their server needs to be implemented.
+ 2. The viewer UI needs improvement.
  3. The timestamp is currently implemented in the database as text, this will limit query capabilities.
- 4. This branch will have to be merged into the `Database_developer` branch, which it its parent branch.

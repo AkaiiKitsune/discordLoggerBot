@@ -54,7 +54,7 @@ async function execute(message) {
     if (message.content.startsWith(prefix)) { //Command handling
         command(message);
     } else { //Logging !
-        //logMsg(message);
+        logMsg(message);
     }
 }
 
