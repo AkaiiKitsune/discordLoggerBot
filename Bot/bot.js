@@ -58,6 +58,13 @@ async function execute(message) {
     }
 }
 
+client.on('messageUpdate', (oldMessage, newMessage) => {
+    oldMsg = oldMessage.content.toString().replace(/\|/g, '\\|');
+    newMsg = newMessage.content.toString().replace(/\|/g, '\\|');
+
+    database.appendMessageEdit(oldMessage.id.toString(), oldMsg, newMsg);
+})
+
 async function command(message) {
     if (message.content.length <= 1) return;
 
