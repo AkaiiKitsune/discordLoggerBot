@@ -51,7 +51,7 @@ module.exports = {
 
     // Adding a message to the database
     addMessageToDB: function (messageId, channelID, serverId, message, author_id, author, time) {
-    console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
+    // console.log("Adding Message " + messageId + " (" + '[' + time + ']' + author + ':' + message + ") to the database.");
 
     db.run(`INSERT INTO messages(message_id, server_id, channel_id, message, author_id, author, time) VALUES(?, ?, ?, ?, ?, ?, ?)`, [messageId, serverId, channelID, message, author_id, author, time], (err) => {
       if (err) {
@@ -64,7 +64,7 @@ module.exports = {
 
     // Querying if there is a server with the given ID in the database
     isServerInDB: function (serverID, callback) {
-        console.log("Checking if server " + serverID + " is in the database...");
+        // console.log("Checking if server " + serverID + " is in the database...");
 
         db.get(`SELECT server_id FROM servers WHERE server_id = ?`, [serverID], (err, result) => {
             if (err) return console.log(err)
@@ -76,7 +76,7 @@ module.exports = {
 
     // Querying if there is a channel with the given ID in the database
     isChannelInDB: function (channelID, callback) {
-        console.log("Checking if channel " + channelID + " is in the database...");
+        // console.log("Checking if channel " + channelID + " is in the database...");
         db.get(`SELECT channel_id FROM channels WHERE channel_id = ?`, [channelID], (err, result) => {
             if (err) return console.log(err)
             if (result != null) {
@@ -126,7 +126,7 @@ module.exports = {
 
     renameServer: function (guildID, newGUildName) {
         console.log("Updating server: " + guildID + " name to: " + newGUildName);
-        db.run("UPDATE servers set name=? where server_id=?", [newGUildName, guildID], function (err) {
+        db.run("UPDATE servers set name=? WHERE server_id=?", [newGUildName, guildID], function (err) {
             if (err) {
                 return console.error(err);
             }
@@ -136,7 +136,16 @@ module.exports = {
 
     renameChannel: function (channelID, newChannelName) {
         console.log("Updating channel: " + channelID + " name to: " + newChannelName);
-        db.run("UPDATE channels set name=? where channel_id=?", [newChannelName, channelID], function (err) {
+        db.run("UPDATE channels set name=? WHERE channel_id=?", [newChannelName, channelID], function (err) {
+            if (err) {
+                return console.error(err);
+            }
+        });
+    },
+
+    appendMessageEdit: function (messageID, oldMessage, newMessage) {
+        console.log("Message: " + messageID + "has been updated from: |" + oldMessage + "| to: |" + newMessage + "|");
+        db.run("UPDATE messages set message=? WHERE message_id=?", [newDBValue = oldMessage + " | " + newMessage, messageID], function (err) {
             if (err) {
                 return console.error(err);
             }
