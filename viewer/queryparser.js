@@ -44,14 +44,14 @@ module.exports = {
         }
 
         let db = new sqlite.Database(dbpath);
-        let channels = await db.all(`SELECT channel_id FROM channels WHERE server_id = ${server_id}` function (error) {
+        let channels = await db.all(`SELECT channel_id FROM channels WHERE server_id = ${server_id}`, function (error) {
             return "db-error";
         });
         let channel_list = [];
         for(let i = 0; i < channels.length; i++)
             channel_list.push(channels[i].channel_id);
         return channel_list;
-    }
+    },
 
     msgQuery: async function (channel_id) {
         /**
