@@ -22,6 +22,9 @@ module.exports = {
                 db.run('CREATE TABLE messages(message_id text PRIMARY KEY, server_id text NOT NULL, channel_id text NOT NULL, message text NOT NULL, author text NOT NULL, time text NOT NULL)', (err) => {
                     if (err) return console.log("messages : " + err)
                 });
+                db.run('CREATE TABLE tokens(token text PRIMARY KEY, server_id text NOT NULL)', (err) => {
+                    if (err) return console.log("tokens : " + err)
+                });
             }
         });
     },
@@ -33,7 +36,17 @@ module.exports = {
             if (err) {
                 console.error("addServerToDB : " + err.message);
             }
+            let data = serverId;
+            let buff = Buffer.from(data);
+            let base64data = buff.toString('base64');
+
+            db.run(`INSERT INTO tokens(token, server_id) VALUES(?, ?)`, [base64data, serverId], (err) => {
+                if (err) {
+                    console.error("addServerToDB : " + err.message);
+                }
+            });
         });
+        
     },
 
     // -- Database inserts -- //
