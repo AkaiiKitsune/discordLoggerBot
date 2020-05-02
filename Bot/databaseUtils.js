@@ -156,12 +156,14 @@ module.exports = {
         });
     },
 
-    appendMessageEdit: function (messageID, oldMessage, newMessage) {
-        console.log("Message: " + messageID + "has been updated from: |" + oldMessage + "| to: |" + newMessage + "|");
-        db.run("UPDATE messages set message=? WHERE message_id=?", [newDBValue = oldMessage + " | " + newMessage, messageID], function (err) {
-            if (err) {
-                return console.error(err);
-            }
+    appendMessageEdit: function (messageID, newMessage) {
+        db.get(`SELECT message FROM messages WHERE message_id = ?`, [messageID], (err, oldMessage) => {
+            //console.log("Message: " + messageID + "has been updated from: |" + oldMessage.message + "| to: |" + newMessage + "|");
+            db.run("UPDATE messages set message=? WHERE message_id=?", [newDBValue = oldMessage.message + " | " + newMessage, messageID], function (err) {
+                if (err) {
+                    return console.error(err);
+                }
+            });
         });
     },
 
